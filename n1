@@ -1,0 +1,88 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+
+    const int SIZE = 5;
+
+    string users[SIZE] = {"Іван", "Олег", "Марія", "Анна", "Петро"};
+    string mobile[SIZE] = {"0991111111", "0672222222", "0933333333", "0504444444", "0685555555"};
+    string home[SIZE] = {"4821111", "4822222", "4823333", "4824444", "4825555"};
+
+    int choice;
+
+    do {
+
+        cout << "\n1 - Сортувати мобільні номери";
+        cout << "\n2 - Сортувати домашні номери";
+        cout << "\n3 - Показати список";
+        cout << "\n4 - Вихід";
+        cout << "\nВаш вибір: ";
+        cin >> choice;
+
+        switch(choice) {
+
+            case 1:
+
+                for(int i = 0; i < SIZE - 1; i++) {
+
+                    for(int j = 0; j < SIZE - i - 1; j++) {
+
+                        if(mobile[j] > mobile[j + 1]) {
+
+                            swap(mobile[j], mobile[j + 1]);
+                            swap(home[j], home[j + 1]);
+                            swap(users[j], users[j + 1]);
+                        }
+                    }
+                }
+
+                cout << "Мобільні номери відсортовано\n";
+                break;
+
+            case 2:
+
+                for(int i = 0; i < SIZE - 1; i++) {
+
+                    for(int j = 0; j < SIZE - i - 1; j++) {
+
+                        if(home[j] > home[j + 1]) {
+
+                            swap(home[j], home[j + 1]);
+                            swap(mobile[j], mobile[j + 1]);
+                            swap(users[j], users[j + 1]);
+                        }
+                    }
+                }
+
+                cout << "Домашні номери відсортовано\n";
+                break;
+
+            case 3:
+
+                cout << "\nСписок користувачів:\n";
+
+                for(int i = 0; i < SIZE; i++) {
+
+                    cout << users[i]
+                         << " | Моб: " << mobile[i]
+                         << " | Дом: " << home[i] << endl;
+                }
+
+                break;
+
+            case 4:
+                cout << "Програма завершена";
+                break;
+
+            default:
+                cout << "Неправильний вибір";
+        }
+
+    } while(choice != 4);
+
+    return 0;
+}
+
