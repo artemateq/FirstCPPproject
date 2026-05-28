@@ -1,0 +1,79 @@
+#include <iostream>
+using namespace std;
+
+
+void initMatrix(int arr[][10], int size) {
+    cout << "Введіть елементи int матриці:\n";
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            cin >> arr[i][j];
+        }
+    }
+}
+
+void printMatrix(int arr[][10], int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            cout << arr[i][j] << "\t";
+        }
+        cout << endl;
+    }
+}
+
+void minMaxDiagonal(int arr[][10], int size) {
+    int min = arr[0][0];
+    int max = arr[0][0];
+
+    for (int i = 0; i < size; i++) {
+
+        if (arr[i][i] < min)
+            min = arr[i][i];
+
+        if (arr[i][i] > max)
+            max = arr[i][i];
+    }
+
+    cout << "Мінімум: " << min << endl;
+    cout << "Максимум: " << max << endl;
+}
+
+void sortRows(int arr[][10], int size) {
+
+    for (int i = 0; i < size; i++) {
+
+        for (int j = 0; j < size - 1; j++) {
+
+            for (int k = 0; k < size - j - 1; k++) {
+
+                if (arr[i][k] > arr[i][k + 1]) {
+                    swap(arr[i][k], arr[i][k + 1]);
+                }
+            }
+        }
+    }
+}
+
+
+
+int main() {
+
+    const int SIZE = 3;
+
+    int matrix[10][10];
+
+    initMatrix(matrix, SIZE);
+
+    cout << "\nМатриця:\n";
+    printMatrix(matrix, SIZE);
+
+    cout << "\nГоловна діагональ:\n";
+    minMaxDiagonal(matrix, SIZE);
+
+    sortRows(matrix, SIZE);
+
+    cout << "\nПісля сортування:\n";
+    printMatrix(matrix, SIZE);
+
+    return 0;
+}
