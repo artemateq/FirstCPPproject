@@ -1,0 +1,178 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+
+// Завдання №1
+
+void sortArray(int arr[], int size, bool descending = false) {
+
+    for (int i = 0; i < size - 1; i++) {
+
+        for (int j = 0; j < size - i - 1; j++) {
+
+            if (!descending && arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+            }
+
+            if (descending && arr[j] < arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+
+
+// Завдання №2
+
+void insertionSortHalf(int arr[], int size) {
+
+    int half = size / 2;
+
+    // Перша половина за спаданням
+
+    for (int i = 1; i < half; i++) {
+
+        int key = arr[i];
+        int j = i - 1;
+
+        while (j >= 0 && arr[j] < key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        arr[j + 1] = key;
+    }
+
+    for (int i = half + 1; i < size; i++) {
+
+        int key = arr[i];
+        int j = i - 1;
+
+        while (j >= half && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        arr[j + 1] = key;
+    }
+}
+
+
+// Завдання №3
+
+void sortBetweenNegatives(int arr[], int size) {
+
+    int firstNeg = -1;
+    int lastNeg = -1;
+
+    for (int i = 0; i < size; i++) {
+
+        if (arr[i] < 0) {
+
+            if (firstNeg == -1)
+                firstNeg = i;
+
+            lastNeg = i;
+        }
+    }
+
+    if (firstNeg == -1 || firstNeg == lastNeg) {
+        cout << "Недостатньо від'ємних елементів.\n";
+        return;
+    }
+
+    for (int i = firstNeg + 1; i < lastNeg; i++) {
+
+        for (int j = firstNeg + 1; j < lastNeg - (i - firstNeg - 1); j++) {
+
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+
+    cout << "Перший від'ємний елемент: " << firstNeg << endl;
+    cout << "Останній від'ємний елемент: " << lastNeg << endl;
+}
+
+
+void printArray(int arr[], int size) {
+
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+
+    cout << endl;
+}
+
+
+int main() {
+
+    srand(time(0));
+
+    // Завдання №1
+
+    int arr1[10];
+
+    cout << "Масив:\n";
+
+    for (int i = 0; i < 10; i++) {
+        arr1[i] = rand() % 100;
+        cout << arr1[i] << " ";
+    }
+
+    cout << "\n\nСортування за зростанням:\n";
+
+    sortArray(arr1, 10);
+
+    printArray(arr1, 10);
+
+    cout << "Сортування за спаданням:\n";
+
+    sortArray(arr1, 10, true);
+
+    printArray(arr1, 10);
+
+
+    // Завдання №2
+
+    int arr2[10];
+
+    cout << "\nМасив:\n";
+
+    for (int i = 0; i < 10; i++) {
+        arr2[i] = rand() % 100;
+        cout << arr2[i] << " ";
+    }
+
+    insertionSortHalf(arr2, 10);
+
+    cout << "\nПісля сортування:\n";
+
+    printArray(arr2, 10);
+
+
+    // Завдання №3
+
+    int arr3[15];
+
+    cout << "\nМасив:\n";
+
+    for (int i = 0; i < 15; i++) {
+        arr3[i] = rand() % 41 - 20;
+        cout << arr3[i] << " ";
+    }
+
+    cout << endl;
+
+    sortBetweenNegatives(arr3, 15);
+
+    cout << "Після сортування:\n";
+
+    printArray(arr3, 15);
+
+    return 0;
+}
