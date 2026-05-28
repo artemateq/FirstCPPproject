@@ -1,0 +1,136 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+
+// Завдання №1
+
+int power(int number, int degree) {
+
+    if (degree == 0)
+        return 1;
+
+    return number * power(number, degree - 1);
+}
+
+
+// Завдання №2
+
+void stars(int n) {
+
+    if (n <= 0)
+        return;
+
+    cout << "*";
+
+    stars(n - 1);
+}
+
+
+// Завдання №3
+
+int sumRange(int a, int b) {
+
+    if (a == b)
+        return a;
+
+    return a + sumRange(a + 1, b);
+}
+
+
+// Завдання №4
+
+int sum10(int arr[], int start, int count = 10) {
+
+    if (count == 0)
+        return 0;
+
+    return arr[start] + sum10(arr, start + 1, count - 1);
+}
+
+int minSequence(int arr[], int index, int& minPos, int& minSum) {
+
+    if (index > 90)
+        return minPos;
+
+    int currentSum = sum10(arr, index);
+
+    if (currentSum < minSum) {
+        minSum = currentSum;
+        minPos = index;
+    }
+
+    return minSequence(arr, index + 1, minPos, minSum);
+}
+
+
+int main() {
+
+    srand(time(0));
+
+    // Завдання №1
+
+    int number, degree;
+
+    cout << "Введіть число: ";
+    cin >> number;
+
+    cout << "Введіть степінь: ";
+    cin >> degree;
+
+    cout << "Результат: "
+         << power(number, degree) << endl;
+
+
+    // Завдання №2
+
+    int n;
+
+    cout << "\nВведіть кількість зірок: ";
+    cin >> n;
+
+    stars(n);
+
+    cout << endl;
+
+
+    // Завдання №3
+
+    int a, b;
+
+    cout << "\nВведіть a: ";
+    cin >> a;
+
+    cout << "Введіть b: ";
+    cin >> b;
+
+    cout << "Сума: "
+         << sumRange(a, b) << endl;
+
+
+    // Завдання №4
+
+    int arr[100];
+
+    cout << "\nМасив:\n";
+
+    for (int i = 0; i < 100; i++) {
+        arr[i] = rand() % 50;
+        cout << arr[i] << " ";
+    }
+
+    int minPos = 0;
+    int minSum = sum10(arr, 0);
+
+    minSequence(arr, 0, minPos, minSum);
+
+    cout << "\nПозиція початку мінімальної послідовності: "
+         << minPos << endl;
+
+    cout << "Мінімальна сума: "
+         << minSum << endl;
+
+    return 0;
+}
