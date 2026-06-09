@@ -1,0 +1,123 @@
+//#include <iostream>
+//#include <Windows.h>
+//using namespace std;
+//
+//
+//int main()
+//{
+//	SetConsoleCP(1251);
+//	SetConsoleOutputCP(1251);
+//	char str[256];
+//    int letters = 0, digits = 0, other = 0;
+//	cout << "Введите строку: ";
+//	cin.getline(str, 256);
+//
+//	for (int i = 0; i < 256 && str[i]; i++) {
+//
+//}
+//	cout << "Количество букв: " << letters << endl;
+//	cout << "Количество цифр: " << digits << endl;
+//	cout << "Количество других символов: " << other << endl;
+//
+//}
+
+//Завдання 2
+
+#include <iostream>
+using namespace std;
+
+int mystrcmp(const char* str1, const char* str2) {
+    while (*str1 && *str2) {
+        if (*str1 > *str2) return  1;
+        if (*str1 < *str2) return -1;
+        str1++;
+        str2++;
+    }
+    if (*str1 > *str2) return  1;
+    if (*str1 < *str2) return -1;
+    return 0;
+}
+
+int StringToNumber(const char* str) {
+    int result = 0, sign = 1, i = 0;
+    while (str[i] == ' ') i++;
+    if (str[i] == '-') { sign = -1; i++; }
+    else if (str[i] == '+') { i++; }
+    while (str[i] >= '0' && str[i] <= '9')
+        result = result * 10 + (str[i++] - '0');
+    return result * sign;
+}
+
+char* NumberToString(int number) {
+    static char buffer[20];
+    int i = 0;
+    bool neg = false;
+
+    if (number == 0) { buffer[0] = '0'; buffer[1] = '\0'; return buffer; }
+    if (number < 0)  { neg = true; number = -number; }
+
+    while (number > 0) { buffer[i++] = '0' + number % 10; number /= 10; }
+    if (neg) buffer[i++] = '-';
+    buffer[i] = '\0';
+
+    int left = 0, right = i - 1;
+    while (left < right) {
+        char tmp = buffer[left];
+        buffer[left++] = buffer[right];
+        buffer[right--] = tmp;
+    }
+    return buffer;
+}
+
+char* Uppercase(char* str) {
+    for (int i = 0; str[i]; i++)
+        if (str[i] >= 'a' && str[i] <= 'z') str[i] -= 32;
+    return str;
+}
+
+char* Lowercase(char* str) {
+    for (int i = 0; str[i]; i++)
+        if (str[i] >= 'A' && str[i] <= 'Z') str[i] += 32;
+    return str;
+}
+
+char* mystrrev(const char* str) {
+    static char result[256];
+    int len = 0;
+    while (str[len]) len++;
+    for (int i = 0; i < len; i++)
+        result[i] = str[len - 1 - i];
+    result[len] = '\0';
+    return result;
+}
+
+int main() {
+    cout << "=== mystrcmp ===" << endl;
+    cout << mystrcmp("apple", "apple")  << endl;  // 0
+    cout << mystrcmp("banana", "apple") << endl;  // 1
+    cout << mystrcmp("apple", "banana") << endl;  // -1
+
+    cout << "\n=== StringToNumber ===" << endl;
+    cout << StringToNumber("123")  << endl;  // 123
+    cout << StringToNumber("-456") << endl;  // -456
+    cout << StringToNumber("  42") << endl;  // 42
+
+    cout << "\n=== NumberToString ===" << endl;
+    cout << NumberToString(789) << endl;   // 789
+    cout << NumberToString(-10) << endl;   // -10
+    cout << NumberToString(0)   << endl;   // 0
+
+    char s1[] = "Hello, World!";
+    cout << "\n=== Uppercase ===" << endl;
+    cout << Uppercase(s1) << endl;  // HELLO, WORLD!
+
+    char s2[] = "Hello, World!";
+    cout << "\n=== Lowercase ===" << endl;
+    cout << Lowercase(s2) << endl;  // hello, world!
+
+    cout << "\n=== mystrrev ===" << endl;
+    cout << mystrrev("abcdef") << endl;  // fedcba
+    cout << mystrrev("12345")  << endl;  // 54321
+
+    return 0;
+}
