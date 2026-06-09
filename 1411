@@ -1,0 +1,90 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+void deleteByIndex(char* str, int index) {
+    int len = strlen(str);
+    for (int i = index; i < len - 1; i++)
+        str[i] = str[i + 1];
+    str[len - 1] = '\0';
+}
+
+void deleteAllOccurrences(char* str, char ch) {
+    int w = 0;
+    for (int i = 0; str[i] != '\0'; i++)
+        if (str[i] != ch) str[w++] = str[i];
+    str[w] = '\0';
+}
+
+void insertAtPosition(char* str, int pos, char ch) {
+    int len = strlen(str);
+    for (int i = len; i >= pos; i--)
+        str[i + 1] = str[i];
+    str[pos] = ch;
+}
+
+void replaceDots(char* str) {
+    for (int i = 0; str[i] != '\0'; i++)
+        if (str[i] == '.') str[i] = '!';
+}
+
+int countOccurrences(const char* str, char ch) {
+    int count = 0;
+    for (int i = 0; str[i] != '\0'; i++)
+        if (str[i] == ch) count++;
+    return count;
+}
+
+int main() {
+    const int BUF = 256;
+    char str[BUF];
+
+    // Завдання 1
+    cout << "=== Завдання 1: Видалити символ за індексом ===\n";
+    cout << "Введіть рядок: ";
+    cin.getline(str, BUF);
+    int idx;
+    cout << "Введіть індекс: ";
+    cin >> idx; cin.ignore();
+    deleteByIndex(str, idx);
+    cout << "Результат: " << str << "\n\n";
+
+    // Завдання 2
+    cout << "=== Завдання 2: Видалити всі входження символу ===\n";
+    cout << "Введіть рядок: ";
+    cin.getline(str, BUF);
+    char ch;
+    cout << "Введіть символ: ";
+    cin >> ch; cin.ignore();
+    deleteAllOccurrences(str, ch);
+    cout << "Результат: " << str << "\n\n";
+
+    // Завдання 3
+    cout << "=== Завдання 3: Вставити символ у позицію ===\n";
+    cout << "Введіть рядок: ";
+    cin.getline(str, BUF);
+    int pos;
+    cout << "Введіть позицію: ";
+    cin >> pos; cin.ignore();
+    cout << "Введіть символ: ";
+    cin >> ch; cin.ignore();
+    insertAtPosition(str, pos, ch);
+    cout << "Результат: " << str << "\n\n";
+
+    // Завдання 4
+    cout << "=== Завдання 4: Замінити '.' на '!' ===\n";
+    cout << "Введіть рядок: ";
+    cin.getline(str, BUF);
+    replaceDots(str);
+    cout << "Результат: " << str << "\n\n";
+
+    // Завдання 5
+    cout << "=== Завдання 5: Порахувати входження символу ===\n";
+    cout << "Введіть рядок: ";
+    cin.getline(str, BUF);
+    cout << "Введіть символ: ";
+    cin >> ch; cin.ignore();
+    cout << "Кількість входжень: " << countOccurrences(str, ch) << "\n";
+
+    return 0;
+}
