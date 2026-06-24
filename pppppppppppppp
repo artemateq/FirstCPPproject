@@ -1,0 +1,102 @@
+#include <iostream>
+using namespace std;
+
+
+double findMax(int* arr, int size) {
+    int max = arr[0];
+
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max)
+            max = arr[i];
+    }
+
+    return max;
+}
+
+
+double findMin(int* arr, int size) {
+    int min = arr[0];
+
+    for (int i = 1; i < size; i++) {
+        if (arr[i] < min)
+            min = arr[i];
+    }
+
+    return min;
+}
+
+
+double findAvg(int* arr, int size) {
+    double sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+
+    return sum / size;
+}
+
+
+double Action(int* A, int sizeA,
+              int* B, int sizeB,
+              double (*func)(int*, int))
+{
+    double resultA = func(A, sizeA);
+    double resultB = func(B, sizeB);
+
+    cout << "\nРезультат для масиву A: " << resultA << endl;
+    cout << "Результат для масиву B: " << resultB << endl;
+
+    return resultA + resultB;
+}
+
+int main() {
+
+    const int SIZE = 5;
+
+    int A[SIZE];
+    int B[SIZE];
+
+    cout << "Введіть елементи масиву A:\n";
+    for (int i = 0; i < SIZE; i++) {
+        cin >> A[i];
+    }
+
+    cout << "\nВведіть елементи масиву B:\n";
+    for (int i = 0; i < SIZE; i++) {
+        cin >> B[i];
+    }
+
+    int choice;
+    double result;
+
+    cout << "\nМеню:";
+    cout << "\n1 - max";
+    cout << "\n2 - min";
+    cout << "\n3 - avg";
+    cout << "\nВаш вибір: ";
+    cin >> choice;
+
+    switch (choice) {
+
+    case 1:
+        result = Action(A, SIZE, B, SIZE, findMax);
+        cout << "\nПовернуте значення Action = " << result;
+        break;
+
+    case 2:
+        result = Action(A, SIZE, B, SIZE, findMin);
+        cout << "\nПовернуте значення Action = " << result;
+        break;
+
+    case 3:
+        result = Action(A, SIZE, B, SIZE, findAvg);
+        cout << "\nПовернуте значення Action = " << result;
+        break;
+
+    default:
+        cout << "Невірний вибір!";
+    }
+
+    return 0;
+}
