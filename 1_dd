@@ -1,0 +1,55 @@
+#include <iostream>
+using namespace std;
+
+double add(double a, double b) {
+    return a + b;
+}
+
+double sub(double a, double b) {
+    return a - b;
+}
+
+double mul(double a, double b) {
+    return a * b;
+}
+
+double divi(double a, double b) {
+    if (b == 0) {
+        cout << "ділення на нуль неможливе" << endl;
+        return 0;
+    }
+    return a / b;
+}
+
+int main() {
+
+    double a, b;
+
+    cout << "Введіть два числа: ";
+    cin >> a >> b;
+
+    double (*operations[4])(double, double) =
+    {
+        add,
+        sub,
+        mul,
+        divi
+    };
+
+    cout << "\n1 - Додавання (+)";
+    cout << "\n2 - Віднімання (-)";
+    cout << "\n3 - Множення (*)";
+    cout << "\n4 - Ділення (/)";
+    cout << "\nВаш вибір: ";
+
+    int choice;
+    cin >> choice;
+
+    if (choice >= 1 && choice <= 4)
+        cout << "Результат = "
+             << operations[choice - 1](a, b);
+    else
+        cout << "неможливо";
+
+    return 0;
+}
