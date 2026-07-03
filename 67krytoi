@@ -1,0 +1,201 @@
+//num1
+
+#include <iostream>
+using namespace std;
+//
+//struct Complex {
+//    double real;
+//    double imag;
+//};
+//
+//Complex add(Complex a, Complex b) {
+//    return { a.real + b.real, a.imag + b.imag };
+//}
+//
+//Complex sub(Complex a, Complex b) {
+//    return { a.real - b.real, a.imag - b.imag };
+//}
+//
+//Complex mul(Complex a, Complex b) {
+//    return {
+//        a.real * b.real - a.imag * b.imag,
+//        a.real * b.imag + a.imag * b.real
+//    };
+//}
+//
+//Complex divi(Complex a, Complex b) {
+//    double d = b.real * b.real + b.imag * b.imag;
+//
+//    return {
+//        (a.real * b.real + a.imag * b.imag) / d,
+//        (a.imag * b.real - a.real * b.imag) / d
+//    };
+//}
+//
+//void print(Complex c) {
+//    cout << c.real;
+//    if (c.imag >= 0)
+//        cout << "+" << c.imag << "i";
+//    else
+//        cout << c.imag << "i";
+//    cout << endl;
+//}
+//
+//int main() {
+//    Complex a, b;
+//
+//    cout << "Введіть перше число (real imag): ";
+//    cin >> a.real >> a.imag;
+//
+//    cout << "Введіть друге число (real imag): ";
+//    cin >> b.real >> b.imag;
+//
+//    cout << "\nСума: ";
+//    print(add(a, b));
+//
+//    cout << "Різниця: ";
+//    print(sub(a, b));
+//
+//    cout << "Добуток: ";
+//    print(mul(a, b));
+//
+//    cout << "Частка: ";
+//    print(divi(a, b));
+//
+//    return 0;
+//}
+
+
+//num2
+//
+//struct Car {
+//    double length;
+//    double clearance;
+//    double engineVolume;
+//    int power;
+//    int wheelDiameter;
+//    char color[20];
+//    char gearbox[20];
+//};
+//
+//void inputCar(Car& c) {
+//    cout << "Довжина: ";
+//    cin >> c.length;
+//
+//    cout << "Кліренс: ";
+//    cin >> c.clearance;
+//
+//    cout << "Об'єм двигуна: ";
+//    cin >> c.engineVolume;
+//
+//    cout << "Потужність: ";
+//    cin >> c.power;
+//
+//    cout << "Діаметр коліс: ";
+//    cin >> c.wheelDiameter;
+//
+//    cout << "Колір: ";
+//    cin >> c.color;
+//
+//    cout << "КПП: ";
+//    cin >> c.gearbox;
+//}
+//
+//void printCar(Car c) {
+//    cout << "\nДовжина: " << c.length;
+//    cout << "\nКліренс: " << c.clearance;
+//    cout << "\nОб'єм двигуна: " << c.engineVolume;
+//    cout << "\nПотужність: " << c.power;
+//    cout << "\nДіаметр коліс: " << c.wheelDiameter;
+//    cout << "\nКолір: " << c.color;
+//    cout << "\nКПП: " << c.gearbox << endl;
+//}
+//
+//int main() {
+//    Car c;
+//
+//    inputCar(c);
+//
+//    cout << "\nІнформація:\n";
+//    printCar(c);
+//
+//    return 0;
+//}
+
+
+//num3
+
+
+//struct Book {
+//    char title[30];
+//    char author[30];
+//    char publisher[30];
+//    char genre[20];
+//};
+//
+//void printBooks(Book b[], int n) {
+//    for (int i = 0; i < n; i++) {
+//        cout << "\nКнига " << i + 1;
+//        cout << "\nНазва: " << b[i].title;
+//        cout << "\nАвтор: " << b[i].author;
+//        cout << "\nВидавництво: " << b[i].publisher;
+//        cout << "\nЖанр: " << b[i].genre << "\n";
+//    }
+//}
+//
+//int main() {
+//
+//    const int N = 10;
+//    Book b[N];
+//
+//    for (int i = 0; i < N; i++) {
+//        cout << "\nВведіть книгу " << i + 1 << ":\n";
+//
+//        cin >> b[i].title;
+//        cin >> b[i].author;
+//        cin >> b[i].publisher;
+//        cin >> b[i].genre;
+//    }
+//
+//    printBooks(b, N);
+//
+//    return 0;
+//}
+
+//num4
+
+struct Car {
+    char color[20];
+    char model[20];
+    char number[20];
+};
+
+void input(Car& c) {
+    cin >> c.color;
+    cin >> c.model;
+    cin >> c.number;
+}
+
+void print(Car c) {
+    cout << c.color << " "
+        << c.model << " "
+        << c.number << endl;
+}
+
+int main() {
+
+    Car cars[10];
+
+    for (int i = 0; i < 10; i++) {
+        cout << "\nМашина " << i + 1 << ": ";
+        input(cars[i]);
+    }
+
+    cout << "\nСписок машин:\n";
+
+    for (int i = 0; i < 10; i++) {
+        print(cars[i]);
+    }
+
+    return 0;
+}
