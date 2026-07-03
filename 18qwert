@@ -1,0 +1,110 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+char* decToBin(int num) {
+    static char bin[33];
+
+    int i = 0;
+
+    if (num == 0) {
+        strcpy(bin, "0");
+        return bin;
+    }
+
+    while (num > 0) {
+        bin[i++] = (num % 2) + '0';
+        num /= 2;
+    }
+
+    bin[i] = '\0';
+
+    for (int j = 0; j < i / 2; j++) {
+        char temp = bin[j];
+        bin[j] = bin[i - 1 - j];
+        bin[i - 1 - j] = temp;
+    }
+
+    return bin;
+}
+
+char* decToHex(int num) {
+    static char hex[20];
+    char digits[] = "0123456789ABCDEF";
+
+    int i = 0;
+
+    if (num == 0) {
+        strcpy(hex, "0");
+        return hex;
+    }
+
+    while (num > 0) {
+        hex[i++] = digits[num % 16];
+        num /= 16;
+    }
+
+    hex[i] = '\0';
+
+    for (int j = 0; j < i / 2; j++) {
+        char temp = hex[j];
+        hex[j] = hex[i - 1 - j];
+        hex[i - 1 - j] = temp;
+    }
+
+    return hex;
+}
+
+
+int binToDec(char* bin) {
+    int result = 0;
+
+    for (int i = 0; bin[i] != '\0'; i++) {
+        result = result * 2 + (bin[i] - '0');
+    }
+
+    return result;
+}
+
+int hexToDec(char* hex) {
+    int result = 0;
+
+    for (int i = 0; hex[i] != '\0'; i++) {
+
+        char c = hex[i];
+
+        if (c >= '0' && c <= '9')
+            result = result * 16 + (c - '0');
+        else if (c >= 'A' && c <= 'F')
+            result = result * 16 + (c - 'A' + 10);
+        else if (c >= 'a' && c <= 'f')
+            result = result * 16 + (c - 'a' + 10);
+    }
+
+    return result;
+}
+
+int main() {
+
+    int number;
+
+    cout << "Введіть десяткове число: ";
+    cin >> number;
+
+    cout << "Двійкове: " << decToBin(number) << endl;
+    cout << "Шістнадцяткове: " << decToHex(number) << endl;
+
+    char bin[33];
+    cout << "\nВведіть двійкове число: ";
+    cin >> bin;
+
+    cout << "Десяткове: " << binToDec(bin) << endl;
+
+    char hex[20];
+    cout << "\nВведіть шістнадцяткове число: ";
+    cin >> hex;
+
+    cout << "Десяткове: " << hexToDec(hex) << endl;
+
+    return 0;
+}
