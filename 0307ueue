@@ -1,0 +1,46 @@
+#include <iostream>
+using namespace std;
+
+#define MIN(a,b) ((a) < (b) ? (a) : (b))
+#define MAX(a,b) ((a) > (b) ? (a) : (b))
+#define SQR(x) ((x) * (x))
+#define POW(x,n) power(x,n)
+#define EVEN(x) ((x) % 2 == 0)
+#define ODD(x) ((x) % 2 != 0)
+
+int power(int x, int n) {
+    int result = 1;
+
+    for (int i = 0; i < n; i++) {
+        result *= x;
+    }
+
+    return result;
+}
+
+int main() {
+
+    int a, b;
+
+    cout << "Введіть два числа: ";
+    cin >> a >> b;
+
+    cout << "\nМенше число: " << MIN(a, b);
+    cout << "\nБільше число: " << MAX(a, b);
+
+    cout << "\nКвадрат першого числа: " << SQR(a);
+
+    cout << "\nСтепінь (a^b): " << POW(a, b);
+
+    if (EVEN(a))
+        cout << "\n" << a << " - парне";
+    else
+        cout << "\n" << a << " - непарне";
+
+    if (ODD(b))
+        cout << "\n" << b << " - непарне";
+    else
+        cout << "\n" << b << " - парне";
+
+    return 0;
+}
