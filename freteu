@@ -1,0 +1,118 @@
+//num 1
+//#include <iostream>
+//using namespace std;
+//
+//int main() {
+//    char str[100];
+//
+//    cout << "Введіть рядок: ";
+//    cin.getline(str, 100);
+//
+//    for (int i = 0; str[i] != '\0'; i++) {
+//        if (str[i] == ' ')
+//            str[i] = '\t';
+//    }
+//
+//    cout << "Результат:\n" << str;
+//
+//    return 0;
+//}
+
+
+//num2
+//#include <iostream>
+//using namespace std;
+//
+//int main() {
+//    char str[100];
+//
+//    int letters = 0;
+//    int digits = 0;
+//    int others = 0;
+//
+//    cout << "Введіть рядок: ";
+//    cin.getline(str, 100);
+//
+//    for (int i = 0; str[i] != '\0'; i++) {
+//
+//        if ((str[i] >= 'A' && str[i] <= 'Z') ||
+//            (str[i] >= 'a' && str[i] <= 'z'))
+//            letters++;
+//
+//        else if (str[i] >= '0' && str[i] <= '9')
+//            digits++;
+//
+//        else
+//            others++;
+//    }
+//
+//    cout << "Літер: " << letters << endl;
+//    cout << "Цифр: " << digits << endl;
+//    cout << "Інших символів: " << others << endl;
+//
+//    return 0;
+//}
+
+//num3
+//#include <iostream>
+//using namespace std;
+//
+//int main() {
+//    char str[200];
+//
+//    cout << "Введіть речення: ";
+//    cin.getline(str, 200);
+//
+//    int words = 0;
+//    bool inWord = false;
+//
+//    for (int i = 0; str[i] != '\0'; i++) {
+//
+//        if (str[i] != ' ' && !inWord) {
+//            words++;
+//            inWord = true;
+//        }
+//
+//        if (str[i] == ' ')
+//            inWord = false;
+//    }
+//
+//    cout << "Кількість слів: " << words;
+//
+//    return 0;
+//}
+
+
+//num 4
+#include <iostream>
+using namespace std;
+
+int main() {
+
+    char str[100];
+
+    cout << "Введіть рядок: ";
+    cin.getline(str, 100);
+
+    int len = 0;
+
+    while (str[len] != '\0')
+        len++;
+
+    bool palindrome = true;
+
+    for (int i = 0; i < len / 2; i++) {
+
+        if (str[i] != str[len - 1 - i]) {
+            palindrome = false;
+            break;
+        }
+    }
+
+    if (palindrome)
+        cout << "Рядок є паліндромом.";
+    else
+        cout << "Рядок не є паліндромом.";
+
+    return 0;
+}
