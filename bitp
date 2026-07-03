@@ -1,0 +1,117 @@
+#include <iostream>
+using namespace std;
+
+
+void printBits(unsigned int num) {
+    for (int i = 31; i >= 0; i--) {
+        cout << ((num >> i) & 1);
+    }
+    cout << endl;
+}
+
+
+bool isEven(int num) {
+    return !(num & 1);
+}
+
+
+int clearBit(int num, int index) {
+    return num & ~(1 << index);
+}
+
+
+int setBit(int num, int index) {
+    return num | (1 << index);
+}
+
+int toggleBit(int num, int index) {
+    return num ^ (1 << index);
+}
+
+
+void countBits(unsigned int num, int& ones, int& zeros) {
+    ones = 0;
+
+    for (int i = 0; i < 32; i++) {
+        if ((num >> i) & 1)
+            ones++;
+    }
+
+    zeros = 32 - ones;
+}
+
+bool isPowerOfTwo(unsigned int num) {
+    return num > 0 && (num & (num - 1)) == 0;
+}
+
+int firstSetBitIndex(unsigned int num) {
+
+    if (num == 0)
+        return -1;
+
+    int index = 0;
+
+    while ((num & 1) == 0) {
+        num >>= 1;
+        index++;
+    }
+
+    return index;
+}
+
+int clearLowestSetBit(int num) {
+    return num & (num - 1);
+}
+
+int main() {
+
+    int num;
+
+    cout << "Введіть число: ";
+    cin >> num;
+
+    cout << "\n1. Біти числа:\n";
+    printBits(num);
+
+    cout << "\n2. Число ";
+    if (isEven(num))
+        cout << "парне\n";
+    else
+        cout << "непарне\n";
+
+    int index;
+
+    cout << "\nВведіть індекс біта: ";
+    cin >> index;
+
+    cout << "\n3. Очистити біт: "
+         << clearBit(num, index) << endl;
+
+    cout << "4. Встановити біт: "
+         << setBit(num, index) << endl;
+
+    cout << "5. Інвертувати біт: "
+         << toggleBit(num, index) << endl;
+
+    int ones, zeros;
+
+    countBits(num, ones, zeros);
+
+    cout << "\n6. Одиниць: " << ones
+         << ", Нулів: " << zeros << endl;
+
+    cout << "\n7. ";
+
+    if (isPowerOfTwo(num))
+        cout << "Число є степенем двійки\n";
+    else
+        cout << "Число НЕ є степенем двійки\n";
+
+    cout << "\n8. Індекс молодшого встановленого біта: "
+         << firstSetBitIndex(num) << endl;
+
+    cout << "\n9. Після обнулення молодшого встановленого біта: "
+         << clearLowestSetBit(num) << endl;
+
+    return 0;
+}
