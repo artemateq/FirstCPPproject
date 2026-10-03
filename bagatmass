@@ -1,0 +1,399 @@
+#include <iostream>
+
+using namespace std;
+
+int** createMatrix(int rows, int cols) {
+    int** matrix = new int*[rows];
+    for (int i = 0; i < rows; ++i) {
+        matrix[i] = new int[cols];
+    }
+    return matrix;
+}
+
+
+void freeMatrix(int** matrix, int rows) {
+    for (int i = 0; i < rows; ++i) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+}
+
+
+void printMatrix(int** matrix, int rows, int cols) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            cout << matrix[i][j] << "\t";
+        }
+        cout << "\n";
+    }
+    cout << "\n";
+}
+
+
+void fillMatrix(int** matrix, int rows, int cols) {
+    int val = 1;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            matrix[i][j] = val++;
+        }
+    }
+}
+
+
+
+// Завдання 1
+
+int** addColumn(int** matrix, int rows, int& cols, int pos, int* newCol) {
+    if (pos < 0 || pos > cols) return matrix;
+
+    int** newMatrix = createMatrix(rows, cols + 1);
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols + 1; ++j) {
+            if (j < pos) {
+                newMatrix[i][j] = matrix[i][j];
+            } else if (j == pos) {
+                newMatrix[i][j] = newCol[i];
+            } else {
+                newMatrix[i][j] = matrix[i][j - 1];
+            }
+        }
+    }
+
+    freeMatrix(matrix, rows);
+    cols++;
+    return newMatrix;
+}
+
+
+
+// Завдання 2
+
+int** deleteColumn(int** matrix, int rows, int& cols, int pos) {
+    if (pos < 0 || pos >= cols || cols <= 0) return matrix;
+
+    int** newMatrix = createMatrix(rows, cols - 1);
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols - 1; ++j) {
+            if (j < pos) {
+                newMatrix[i][j] = matrix[i][j];
+            } else {
+                newMatrix[i][j] = matrix[i][j + 1];
+            }
+        }
+    }
+
+    freeMatrix(matrix, rows);
+    cols--;
+    return newMatrix;
+}
+
+
+
+// Завдання 3
+
+void shiftMatrix(int** matrix, int rows, int cols, int count, int dir) {
+    if (rows <= 0 || cols <= 0) return;
+
+    count = count % ((dir == 1 || dir == 2) ? rows : cols);
+
+    for (int k = 0; k < count; ++k) {
+        if (dir == 1) { // Вгору
+            int* temp = matrix[0];
+            for (int i = 0; i < rows - 1; ++i) matrix[i] = matrix[i + 1];
+            matrix[rows - 1] = temp;
+        } 
+        else if (dir == 2) { // Вниз
+            int* temp = matrix[rows - 1];
+            for (int i = rows - 1; i > 0; --i) matrix[i] = matrix[i - 1];
+            matrix[0] = temp;
+        } 
+        else if (dir == 3) { // Вліво
+            for (int i = 0; i < rows; ++i) {
+                int temp = matrix[i][0];
+                for (int j = 0; j < cols - 1; ++j) matrix[i][j] = matrix[i][j + 1];
+                matrix[i][cols - 1] = temp;
+            }
+        } 
+        else if (dir == 4) { // Вправо
+            for (int i = 0; i < rows; ++i) {
+                int temp = matrix[i][cols - 1];
+                for (int j = cols - 1; j > 0; --j) matrix[i][j] = matrix[i][j - 1];
+                matrix[i][0] = temp;
+            }
+        }
+    }
+}
+
+
+
+// Завдання 4
+
+int** transposeMatrix(int** matrix, int rows, int cols, int& newRows, int& newCols) {
+    newRows = cols;
+    newCols = rows;
+    int** transposed = createMatrix(newRows, newCols);
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            transposed[j][i] = matrix[i][j];
+        }
+    }
+    return transposed;
+}
+
+
+
+// Завдання 5
+int myStrcmp(const char* str1, const char* str2) {
+    while (*str1 && (*str1 == *str2)) {
+        str1++;
+        str2++;
+    }
+    return *(unsigned char*)str1 - *(unsigned char*)str2;
+}
+
+void myStrcpy(char* dest, const char* src) {
+    while ((*dest++ = *src++));
+}
+
+void searchByName(char*** phoneBook, int count, const char* name) {
+    bool found = false;
+    for (int i = 0; i < count; ++i) {
+        if (myStrcmp(phoneBook[0][i], name) == 0) {
+            cout << "Знайдено: " << phoneBook[0][i] << " - " << phoneBook[1][i] << "\n";
+            found = true;
+        }
+    }
+    if (!found) cout << "Запис не знайдено.\n";
+}
+
+void searchByPhone(char*** phoneBook, int count, const char* phone) {
+    bool found = false;
+    for (int i = 0; i < count; ++i) {
+        if (myStrcmp(phoneBook[1][i], phone) == 0) {
+            cout << "Знайдено: " << phoneBook[0][i] << " - " << phoneBook[1][i] << "\n";
+            found = true;
+        }
+    }
+    if (!found) cout << "Запис не знайдено.\n";
+}
+
+void editContact(char*** phoneBook, int count, int index, const char* newName, const char* newPhone) {
+    if (index >= 0 && index < count) {
+        myStrcpy(phoneBook[0][index], newName);
+        myStrcpy(phoneBook[1][index], newPhone);
+    }
+}
+
+
+// Завдання 6
+void sortSurnames(char surnames[5][50]) {
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4 - i; ++j) {
+            if (myStrcmp(surnames[j], surnames[j + 1]) > 0) {
+                char temp[50];
+                myStrcpy(temp, surnames[j]);
+                myStrcpy(surnames[j], surnames[j + 1]);
+                myStrcpy(surnames[j + 1], temp);
+            }
+        }
+    }
+}
+
+
+// Завдання 7
+bool contains(int* arr, int size, int val) {
+    for (int i = 0; i < size; ++i) {
+        if (arr[i] == val) return true;
+    }
+    return false;
+}
+
+bool inMatrix(int** mat, int r, int c, int val) {
+    for (int i = 0; i < r; ++i) {
+        for (int j = 0; j < c; ++j) {
+            if (mat[i][j] == val) return true;
+        }
+    }
+    return false;
+}
+
+void addUnique(int*& arr, int& size, int val) {
+    if (!contains(arr, size, val)) {
+        int* temp = new int[size + 1];
+        for (int i = 0; i < size; ++i) temp[i] = arr[i];
+        temp[size] = val;
+        delete[] arr;
+        arr = temp;
+        size++;
+    }
+}
+
+void printArray(const char* name, int* arr, int size) {
+    cout << name << " [" << size << "]: ";
+    for (int i = 0; i < size; ++i) cout << arr[i] << " ";
+    cout << "\n";
+}
+
+
+int main() {
+    system("chcp 1251 > nul");
+
+   
+    cout << "=== Завдання 1 та 2 ===\n";
+    int r = 3, c = 3;
+    int** m1 = createMatrix(r, c);
+    fillMatrix(m1, r, c);
+    cout << "Початкова матриця:\n";
+    printMatrix(m1, r, c);
+
+    int newColData[3] = {99, 99, 99};
+    m1 = addColumn(m1, r, c, 1, newColData);
+    cout << "Після додавання стовпця в поз. 1:\n";
+    printMatrix(m1, r, c);
+
+    m1 = deleteColumn(m1, r, c, 1);
+    cout << "Після видалення стовпця з поз. 1:\n";
+    printMatrix(m1, r, c);
+    freeMatrix(m1, r);
+
+
+ 
+    cout << "=== Завдання 3 ===\n";
+    int r3 = 3, c3 = 3;
+    int** m3 = createMatrix(r3, c3);
+    fillMatrix(m3, r3, c3);
+    cout << "Початкова:\n";
+    printMatrix(m3, r3, c3);
+
+    shiftMatrix(m3, r3, c3, 1, 4); // Вправо на 1
+    cout << "Зсув вправо на 1:\n";
+    printMatrix(m3, r3, c3);
+    freeMatrix(m3, r3);
+
+
+    
+    cout << "=== Завдання 4 ===\n";
+    int r4 = 2, c4 = 3;
+    int** m4 = createMatrix(r4, c4);
+    fillMatrix(m4, r4, c4);
+    cout << "Початкова 2x3:\n";
+    printMatrix(m4, r4, c4);
+
+    int trRows, trCols;
+    int** m4_transposed = transposeMatrix(m4, r4, c4, trRows, trCols);
+    cout << "Транспонована 3x2:\n";
+    printMatrix(m4_transposed, trRows, trCols);
+    freeMatrix(m4, r4);
+    freeMatrix(m4_transposed, trRows);
+
+
+   
+    cout << "=== Завдання 5 ===\n";
+    int contactsCount = 2;
+    char*** phoneBook = new char**[2];
+    phoneBook[0] = new char*[contactsCount]; // Імена
+    phoneBook[1] = new char*[contactsCount]; // Телефони
+
+    for (int i = 0; i < contactsCount; ++i) {
+        phoneBook[0][i] = new char[50];
+        phoneBook[1][i] = new char[50];
+    }
+
+    myStrcpy(phoneBook[0][0], "Oleg");   myStrcpy(phoneBook[1][0], "0971112233");
+    myStrcpy(phoneBook[0][1], "Ivan");   myStrcpy(phoneBook[1][1], "0504445566");
+
+    searchByName(phoneBook, contactsCount, "Ivan");
+    editContact(phoneBook, contactsCount, 1, "Ivan", "0990000000");
+    searchByPhone(phoneBook, contactsCount, "0990000000");
+
+    for (int i = 0; i < contactsCount; ++i) {
+        delete[] phoneBook[0][i];
+        delete[] phoneBook[1][i];
+    }
+    delete[] phoneBook[0];
+    delete[] phoneBook[1];
+    delete[] phoneBook;
+
+
+
+    cout << "\n=== Завдання 6 ===\n";
+    char students[5][50] = { "Shevchenko", "Bondarenko", "Kovalenko", "Boyko", "Tkachenko" };
+    
+    sortSurnames(students);
+    cout << "Відсортовані прізвища:\n";
+    for (int i = 0; i < 5; ++i) {
+        cout << i + 1 << ". " << students[i] << "\n";
+    }
+
+
+
+    cout << "\n=== Завдання 7 ===\n";
+    int rA = 2, cA = 2;
+    int rB = 2, cB = 2;
+    int rC = 2, cC = 2;
+
+    int** A = createMatrix(rA, cA);
+    int** B = createMatrix(rB, cB);
+    int** C = createMatrix(rC, cC);
+
+    // Приклад заповнення масивів даними (включаючи від'ємні)
+    A[0][0] = -1; A[0][1] = 2;  A[1][0] = 5;  A[1][1] = -10;
+    B[0][0] = -1; B[0][1] = 3;  B[1][0] = 5;  B[1][1] = -20;
+    C[0][0] = -1; C[0][1] = 5;  C[1][0] = 7;  C[1][1] = -10;
+
+    int *commonABC = nullptr, szABC = 0;
+    int *uniqueABC = nullptr, szUnq = 0;
+    int *commonAC  = nullptr, szAC  = 0;
+    int *negatives = nullptr, szNeg = 0;
+
+    // Обробка для кожного елемента A
+    for (int i = 0; i < rA; ++i) {
+        for (int j = 0; j < cA; ++j) {
+            int val = A[i][j];
+            bool inB = inMatrix(B, rB, cB, val);
+            bool inC = inMatrix(C, rC, cC, val);
+
+            if (inB && inC) addUnique(commonABC, szABC, val);
+            if (inC) addUnique(commonAC, szAC, val);
+            if (!inB && !inC) addUnique(uniqueABC, szUnq, val);
+            if (val < 0) addUnique(negatives, szNeg, val);
+        }
+    }
+
+    // Додавання унікальних елементів з B
+    for (int i = 0; i < rB; ++i) {
+        for (int j = 0; j < cB; ++j) {
+            int val = B[i][j];
+            if (!inMatrix(A, rA, cA, val) && !inMatrix(C, rC, cC, val)) addUnique(uniqueABC, szUnq, val);
+            if (val < 0) addUnique(negatives, szNeg, val);
+        }
+    }
+
+  
+    for (int i = 0; i < rC; ++i) {
+        for (int j = 0; j < cC; ++j) {
+            int val = C[i][j];
+            if (!inMatrix(A, rA, cA, val) && !inMatrix(B, rB, cB, val)) addUnique(uniqueABC, szUnq, val);
+            if (val < 0) addUnique(negatives, szNeg, val);
+        }
+    }
+
+    printArray("Загальні A, B, C", commonABC, szABC);
+    printArray("Унікальні A, B, C", uniqueABC, szUnq);
+    printArray("Спільні A і C", commonAC, szAC);
+    printArray("Від'ємні (без повторів)", negatives, szNeg);
+
+    delete[] commonABC;
+    delete[] uniqueABC;
+    delete[] commonAC;
+    delete[] negatives;
+
+    freeMatrix(A, rA);
+    freeMatrix(B, rB);
+    freeMatrix(C, rC);
+
+    return 0;
+}
