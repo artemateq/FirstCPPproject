@@ -1,0 +1,118 @@
+#include <iostream>
+
+using namespace std;
+
+// Завдання 1
+void task1() {
+    FILE* fin = fopen("input.txt", "r");
+    FILE* fout = fopen("output1.txt", "w");
+
+    if (!fin || !fout) return;
+
+    char word[256];
+    while (fscanf(fin, "%255s", word) == 1) {
+        int length = 0;
+        while (word[length] != '\0') {
+            length++;
+        }
+
+        if (length >= 7) {
+            fprintf(fout, "%s ", word);
+        }
+    }
+
+    fclose(fin);
+    fclose(fout);
+}
+
+// Завдання 2
+void task2() {
+    FILE* fin = fopen("input.txt", "r");
+    FILE* fout = fopen("output2.txt", "w");
+
+    if (!fin || !fout) return;
+
+    char line[512];
+    while (fgets(line, sizeof(line), fin)) {
+        fputs(line, fout);
+    }
+
+    fclose(fin);
+    fclose(fout);
+}
+
+// Завдання 3
+void task3() {
+    FILE* fin = fopen("input.txt", "r");
+    FILE* fout = fopen("output3.txt", "w");
+
+    if (!fin || !fout) return;
+
+    char lines[1000][512];
+    int count = 0;
+
+    while (count < 1000 && fgets(lines[count], sizeof(lines[count]), fin)) {
+        count++;
+    }
+
+    for (int i = count - 1; i >= 0; i--) {
+        fputs(lines[i], fout);
+    }
+
+    fclose(fin);
+    fclose(fout);
+}
+
+// Завдання 4
+    FILE* fin = fopen("input.txt", "r");
+
+    if (!fin) return;
+
+    char lines[1000][512];
+    int count = 0;
+    int last_no_space_index = -1;
+
+    while (count < 1000 && fgets(lines[count], sizeof(lines[count]), fin)) {
+        bool has_space = false;
+        for (int i = 0; lines[count][i] != '\0' && lines[count][i] != '\n'; i++) {
+            if (lines[count][i] == ' ') {
+                has_space = true;
+                break;
+            }
+        }
+
+        if (!has_space) {
+            last_no_space_index = count;
+        }
+
+        count++;
+    }
+    fclose(fin);
+
+    FILE* fout = fopen("output4.txt", "w");
+    if (!fout) return;
+
+    if (last_no_space_index == -1) {
+        for (int i = 0; i < count; i++) {
+            fputs(lines[i], fout);
+        }
+        fputs("------------\n", fout);
+    } else {
+        for (int i = 0; i < count; i++) {
+            fputs(lines[i], fout);
+            if (i == last_no_space_index) {
+                fputs("------------\n", fout);
+            }
+        }
+    }
+
+    fclose(fout);
+}
+
+int main() {
+    task1();
+    task2();
+    task3();
+    task4();
+    return 0;
+}
