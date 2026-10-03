@@ -1,0 +1,156 @@
+#include <iostream>
+
+using namespace std;
+
+bool isVowel(wchar_t c) {
+    wchar_t vowels[] = L"aeiouyAEIOUYаеєиіїоуюяАЕЄИІЇОУЮЯ";
+    for (int i = 0; vowels[i] != L'\0'; i++) {
+        if (c == vowels[i]) return true;
+    }
+    return false;
+}
+
+
+bool isConsonant(wchar_t c) {
+    wchar_t consonants[] = L"bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZбвгґджзклмнпрстфхцчшщБВГҐДЖЗКЛМНПРСТФХЦЧШЩ";
+    for (int i = 0; consonants[i] != L'\0'; i++) {
+        if (c == consonants[i]) return true;
+    }
+    return false;
+}
+
+// Завдання 1
+void task1() {
+    FILE* f1 = fopen("file1.txt", "r");
+    FILE* f2 = fopen("file2.txt", "r");
+
+    if (!f1 || !f2) {
+        if (f1) fclose(f1);
+        if (f2) fclose(f2);
+        return;
+    }
+
+    char line1[512];
+    char line2[512];
+    int lineNumber = 1;
+    bool differ = false;
+
+    while (true) {
+        char* res1 = fgets(line1, sizeof(line1), f1);
+        char* res2 = fgets(line2, sizeof(line2), f2);
+
+        if (!res1 && !res2) break;
+
+        bool match = true;
+        if (!res1 || !res2) {
+            match = false;
+        } else {
+            for (int i = 0; line1[i] != '\0' || line2[i] != '\0'; i++) {
+                if (line1[i] != line2[i]) {
+                    match = false;
+                    break;
+                }
+            }
+        }
+
+        if (!match) {
+            cout << "Рядок " << lineNumber << " не збігається:\n";
+            cout << "Файл 1: " << (res1 ? line1 : "<кінець файлу>\n");
+            cout << "Файл 2: " << (res2 ? line2 : "<кінець файлу>\n");
+            differ = true;
+            break;
+        }
+
+        lineNumber++;
+    }
+
+    if (!differ) {
+        cout << "Файли повністю збігаються.\n";
+    }
+
+    fclose(f1);
+    fclose(f2);
+}
+
+// Завдання 2
+void task2() {
+    FILE* fin = fopen("input.txt", "r");
+    if (!fin) return;
+
+    int charCount = 0;
+    int lineCount = 0;
+    int vowelCount = 0;
+    int consonantCount = 0;
+    int digitCount = 0;
+
+    int c;
+    bool hasContent = false;
+
+    while ((c = fgetc(fin)) != EOF) {
+        hasContent = true;
+        charCount++;
+
+        if (c == '\n') {
+            lineCount++;
+        }
+
+        if (c >= '0' && c <= '9') {
+            digitCount++;
+        }
+
+        if (isVowel((wchar_t)c)) {
+            vowelCount++;
+        } else if (isConsonant((wchar_t)c)) {
+            consonantCount++;
+        }
+    }
+
+    if (hasContent) {
+        lineCount++;
+    }
+
+    fclose(fin);
+
+    FILE* fout = fopen("stat.txt", "w");
+    if (!fout) return;
+
+    fprintf(fout, "Кількість символів: %d\n", charCount);
+    fprintf(fout, "Кількість рядків: %d\n", lineCount);
+    fprintf(fout, "Кількість голосних: %d\n", vowelCount);
+    fprintf(fout, "Кількість приголосних: %d\n", consonantCount);
+    fprintf(fout, "Кількість цифр: %d\n", digitCount);
+
+    fclose(fout);
+}
+
+// Завдання 3
+void task3(int key) {
+    FILE* fin = fopen("input.txt", "r");
+    FILE* fout = fopen("encrypted.txt", "w");
+
+    if (!fin || !fout) {
+        if (fin) fclose(fin);
+        if (fout) fclose(fout);
+        return;
+    }
+
+    int c;
+    while ((c = fgetc(fin)) != EOF) {
+        if (c >= 'a' && c <= 'z') {
+            c = 'a' + (c - 'a' + key) % 26;
+        } else if (c >= 'A' && c <= 'Z') {
+            c = 'A' + (c - 'A' + key) % 26;
+        }
+        fputc(c, fout);
+    }
+
+    fclose(fin);
+    fclose(fout);
+}
+
+int main() {
+    task1();
+    task2();
+    task3(3);
+    return 0;
+}
